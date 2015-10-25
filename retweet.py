@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import urllib3.contrib.pyopenssl
+urllib3.contrib.pyopenssl.inject_into_urllib3()
 import os, ConfigParser, tweepy, inspect, hashlib
 
 path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -50,7 +51,7 @@ except IndexError:
     last_tweet_id = savepoint
 
 # filter @replies/blacklisted words & users out and reverse timeline
-timeline = filter(lambda status: status.text[0] != "@", timeline)
+#timeline = filter(lambda status: status.text[0] != "@", timeline)
 timeline = filter(lambda status: not any(word in status.text.split() for word in wordBlacklist), timeline)
 timeline = filter(lambda status: status.author.screen_name not in userBlacklist, timeline)
 timeline.reverse()
